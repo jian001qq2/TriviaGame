@@ -43,7 +43,8 @@ var timer = {
 //issue encountered is that when I try to refer the number in the answer it woun't work
 /*orginially plant to use the index to show the coreect answer text in screen but things
 weren't going right,so create a new property answerText hope to show the answer*/
-var problems = [{ // first question
+var problems = [
+    { // first question
         question: "What is the world's longest river?", // 1. amazon 2. nile 3. yangtze
         choices: ["Nile", "Mississippi", "Amazon", "Yangtze"],
         //correct answer index in the choice
@@ -99,12 +100,15 @@ function questions() {
     timer.runTimer();
     // to show the div contains question and choices
     $("#wraper").show();
+    //Attempt to uncheck the question choice for start of each quesiton 
+    $('input:radio').prop("checked",false);
+    //print text of question in html 
     $("#problems").text(problems[counter].question);
     $("#choice-0").text(problems[counter].choices[0]);
     $("#choice-1").text(problems[counter].choices[1]);
     $("#choice-2").text(problems[counter].choices[2]);
     $("#choice-3").text(problems[counter].choices[3]);
-    counter++;
+    
 }
 
 // check whether the user selected the right or wrong answer, and print coresponding message on the screen.
@@ -134,14 +138,13 @@ function SwichPage() {
     // check conditions to see if a choice was made by the user, if yes run the check function
     // to check user's selection
     if ($("input").is(':checked')) {
-        setTimeout(checkAnswer, 1000);
+        checkAnswer();
         //run this when time out, and no choice was made
     } else if (timer.answerTime === 0) {
-        //function to show text when time's up
-        setTimeout(function () {
+        //text to show when time's up
             var correctText = problems[counter].answerText;
             $("#out-of-time").html("<h2> Time's Up! </h2>" + "<br></br>" + "<h2>the correct answer is: " + correctText + "</h2>");
-        }, 1000);
+
     }
 
 };
@@ -160,7 +163,7 @@ function reset() {
 //declaration of a funciton to show overall effort of the user
 /* this funtion should run after all the questions were shown*/
 function result() {
-    if (counter >= totalQuestions) {
+    if ((counter +1)>= totalQuestions) {
         var finalMessage = "<h2>All done, here is how you did ! </h2>";
         var breakLine = $("<br>");
         var coreectMessge = "<h2> Correct Answers: " + correctAns + "</h2>";
@@ -177,10 +180,10 @@ function result() {
 
 /*this is the section really run everything i declared above.
 I planed to simplify the really run code when the selection is clikced, then wait 3 secounds to s
-show another quesiton . one thing I like to do but failed is to clear the selection of choice made 
-in the previous question.*/
+show another quesiton.*/
 $("input").on("click", function () {
     SwichPage();
+    counter++;
     setTimeout(questions, 1000 * 3);
 });
 result();
