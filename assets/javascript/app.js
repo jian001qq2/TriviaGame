@@ -1,15 +1,17 @@
+/*This is a not working as video demonstrated. it only runs the questions and timer, but
+somehow the response I planed this app to do after the user made a seleciton was not working. 
+double check the */
+
 // This code will run as soon as the page loads
 window.onload = function () {
     $("#wraper").hide();
     $("#start").on("click", function () {
         $("#start").hide();
-
-
         //run the function to show the question
         questions();
     });
 };
-// //  Variable that will hold our setInterval that runs the timer
+//  Variable that will hold our setInterval that runs the timer
 var intervalId;
 // prevents the clock from being sped up unnecessarily
 var clockRunning = false;
@@ -28,7 +30,7 @@ var timer = {
         if (timer.answerTime === 0) {
             timer.stopTimer();
             timer.answerTime = 30;
-        } //to make a if statement to reset the total time when new question start
+        }
     },
     stopTimer: function () {
         clearInterval(intervalId);
@@ -38,13 +40,15 @@ var timer = {
 
 };
 // create a big array with properties like object
+//issue encountered is that when I try to refer the number in the answer it woun't work
+/*orginially plant to use the index to show the coreect answer text in screen but things
+weren't going right,so create a new property answerText hope to show the answer*/
 var problems = [{ // first question
         question: "What is the world's longest river?", // 1. amazon 2. nile 3. yangtze
         choices: ["Nile", "Mississippi", "Amazon", "Yangtze"],
         //correct answer index in the choice
         answer: 2,
-        //orginially plant to use the index to show the coreect answer text in screen but stucked
-        //so create a new property to show it 
+
         answerText: " Amazon",
     },
     { // second question
@@ -105,8 +109,9 @@ function questions() {
 
 // check whether the user selected the right or wrong answer, and print coresponding message on the screen.
 function checkAnswer() {
-    var userSelection = $("input:checked").val(); // answer index of user selection in choice
-    if (userSelection === problems[counter].answer) {
+    var userSelection = $("input:checked").val(); // answer index of user selection in choices
+    //check the index is equal to the correct answer index , if yes, stop time, print correct
+    if (userSelection == problems[counter].answer) {
         timer.stopTimer();
         correctAns++;
         $("#ringt-answer").html("<h2>Correct!</h2>")
@@ -120,23 +125,22 @@ function checkAnswer() {
     }
 
 };
-//function to show text when time's up
-function outTime() {
-    var correctText = problems[counter].answerText;
-    $("#out-of-time").html("<h2> Time's Up! </h2>" + "<br></br>" + "<h2>the correct answer is: " + correctText + "</h2>");
-
-
-}
-// expect to swich the page after the user selected a choice or time out
+/*expect to swich the page after the user selected a choice or time out, it will wait 1 second
+after the user selection to deterimine which text to print, then if no user's selection and time ran
+out , print another text */
 function SwichPage() {
     // to clear the section for response after chosen an answer
     $("#response").empty();
-    // check conditions to determine which response for the problem
+    // check conditions to see if a choice was made by the user, if yes run the check function
+    // to check user's selection
     if ($("input").is(':checked')) {
         setTimeout(checkAnswer, 1000);
+        //run this when time out, and no choice was made
     } else if (timer.answerTime === 0) {
-        setTimeout({
-            outTime
+        //function to show text when time's up
+        setTimeout(function () {
+            var correctText = problems[counter].answerText;
+            $("#out-of-time").html("<h2> Time's Up! </h2>" + "<br></br>" + "<h2>the correct answer is: " + correctText + "</h2>");
         }, 1000);
     }
 
@@ -153,26 +157,44 @@ function reset() {
     $("#response").empty();
     questions();
 }
-
+//declaration of a funciton to show overall effort of the user
+/* this funtion should run after all the questions were shown*/
 function result() {
-    if (counter >= totalQ) {
+    if (counter >= totalQuestions) {
         var finalMessage = "<h2>All done, here is how you did ! </h2>";
         var breakLine = $("<br>");
         var coreectMessge = "<h2> Correct Answers: " + correctAns + "</h2>";
         var incorrectMessage = "<h2> Incorrect Answers: " + wrongAns + "</h2>";
         var unansweredMessage = "<h2> UNanswered: " + unanswered + "</h2>";
-        var startOver = $("div").html("<h2 id ='play-again'>Start Over? </h2>").on("click", reset);
+        var startOver = $("div").html("<h2 id ='play-again'>Start Over? </h2>");
+        //this is used to reset the game if user clicked the start over text
+        startOver.on("click", reset);
         $('#result').append(finalMessage + breakLine + coreectMessge + breakLine + incorrectMessage +
             unansweredMessage + breakLine + startOver)
     }
 
 }
-//This section is how the game runs
-//Event listener for the start button
 
-
-//condition when the user clicks a choice
+/*this is the section really run everything i declared above.
+I planed to simplify the really run code when the selection is clikced, then wait 3 secounds to s
+show another quesiton . one thing I like to do but failed is to clear the selection of choice made 
+in the previous question.*/
 $("input").on("click", function () {
     SwichPage();
     setTimeout(questions, 1000 * 3);
 });
+result();
+
+/*Overall outcome
+    I list the question and the choices correctly. Also create pretty good timer for this
+game to track each quesiton's answering time. however, I didn't get the response after the 
+user's selection or when time is out to work as I planed to work, I check over and over
+of my logics and variable referencing , but I could not find out any solution for that.
+I detailed out my steps above on almost every one. and I think I did my best effort on this game,.
+the reason I did not make this game working maybe I make this one so hard by adding too many
+ new stuffs I am no vey familiar with such as list several objects in a array. anyways , the due day
+ is coming , I will submit what I have right now.*/
+
+  /*Personal notes to the grader of this homework
+    Please, Please, Please, if you could fix this one and make it to work, could you comment out
+    what you did in detial or comment out the working code above or below the one that you corrected */

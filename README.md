@@ -5,7 +5,7 @@ This is second javaScript Assignment. in this In this assignment, student(me- th
 purpose 
 To demonstate how well the student(me-the creator of this game) master the new concepts on the setting up timer.Also to refreshing student's skills and memory on using javaScript, jQuery, html, and CSS.
 
-General descriptions of this game
+General descriptions of the expectation of this game
 
 1. Creating a trivia game that shows only one question. the next question will show until player answers the current one or the time runs out.
 
@@ -16,3 +16,7 @@ General descriptions of this game
 4. If the player chooses the wrong answer, tell the player they selected the wrong option and then display the correct answer. Wait a few seconds, then show the next question.
 
 5. when all questions are displyaed,show the number of correct answers, incorrect answers, how many unanswered questions.Also having an option to  play the game again after click the start over.
+
+Outcome
+this wasn't totally working, only selection answer choice and timer were working, but the response 
+didn't work for right now. Hope could fix this problem in the future.
